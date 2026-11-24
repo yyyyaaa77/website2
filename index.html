@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c41e3a">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>赛夫 AI 背包导购</title>
+  <link rel="stylesheet" href="styles.css?v=20261124-2">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-grid"></span>
+    <span class="ambient-red"></span>
+    <p>SEIF GROUP · AI COMMERCE ENGINE</p>
+  </div>
+
+  <main class="mini-app" id="miniApp">
+    <header class="app-header">
+      <button class="brand-button" type="button" data-tab-target="chat" aria-label="返回 AI 导购">
+        <img src="assets/logo.png" alt="赛夫">
+      </button>
+      <div class="header-copy">
+        <strong id="headerTitle">AI 导购</strong>
+        <small>SEIF · PACK GUIDE</small>
+      </div>
+      <div class="header-actions">
+        <span class="live-dot">在线</span>
+        <button class="round-button" id="resetButton" type="button" aria-label="重新开始">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8.5A8 8 0 1 1 4.4 15M5 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="app-page active" id="chatPage" aria-label="AI 导购">
+      <div class="page-scroll chat-scroll" id="chatScroll">
+        <section class="brand-hero" id="brandHero">
+          <div class="hero-particles" aria-hidden="true"></div>
+          <span class="hero-kicker">SEIF AI / PERSONAL SHOPPER</span>
+          <h1>不只一种包，<br>也不只一种生活。</h1>
+          <p>通勤、上学、带娃、登山户外或穿搭。先说场景，AI 再理解风格、预算与功能。</p>
+          <button class="hero-start" type="button" data-starter="上班通勤，预算 600 元，商务简约一点">
+            开始体验
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </section>
+
+        <section class="slot-board" aria-label="当前需求画像">
+          <div class="section-label">
+            <span>需求画像</span>
+            <small id="clarityLabel">0 / 5</small>
+          </div>
+          <div class="slot-row" id="slotRow">
+            <span class="slot-chip empty" data-slot="scene">用途</span>
+            <span class="slot-chip empty" data-slot="budget">预算</span>
+            <span class="slot-chip empty" data-slot="audience">受众</span>
+            <span class="slot-chip empty" data-slot="priority">风格</span>
+            <span class="slot-chip empty" data-slot="avoid">禁忌</span>
+          </div>
+        </section>
+
+        <section class="conversation" id="messages" aria-live="polite"></section>
+
+        <section class="result-section" id="resultSection" hidden>
+          <div class="result-heading">
+            <div>
+              <span class="eyebrow">CURATED FOR YOU</span>
+              <h2 id="resultTitle">为你筛出 3 款</h2>
+              <p id="resultSubtitle">匹配、预算、库存和取舍已一起计算。</p>
+            </div>
+            <button class="text-button" id="openCompareButton" type="button" hidden>对比 <span id="compareCount">0</span></button>
+          </div>
+          <div class="match-summary" id="matchSummary"></div>
+          <div class="product-list" id="recommendationList"></div>
+          <div class="not-recommend" id="notRecommend"></div>
+          <div class="source-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.2c0 4.6 3 7.6 7.5 9.8 4.5-2.2 7.5-5.2 7.5-9.8V6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <p>价格、库存与商品图来自小米商城、苏宁易购和品牌官网，快照时间为 2026-11-24。实际价格、库存与配送以商品渠道实时页面为准。</p>
+          </div>
+        </section>
+
+        <div class="scroll-spacer"></div>
+      </div>
+
+      <div class="chat-dock">
+        <div class="quick-replies" id="quickReplies"></div>
+        <form class="composer" id="chatForm">
+          <button class="composer-plus" type="button" id="composerPlus" aria-label="快捷选项">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+          </button>
+          <input id="chatInput" type="text" maxlength="120" autocomplete="off" placeholder="描述你的背包需求">
+          <button class="send-button" type="submit" aria-label="发送">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14-7-4.5 14-3-5.5L5 12Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <section class="app-page" id="catalogPage" aria-label="商品库">
+      <div class="page-scroll catalog-scroll">
+        <div class="page-title-row">
+          <div>
+            <span class="eyebrow">VERIFIED CATALOG</span>
+            <h1>多场景商品库</h1>
+            <p>28 款真实商品直链，覆盖母婴、校园、通勤、时尚与轻户外</p>
+          </div>
+          <span class="verified-pill">28 SKU · 11/24 核验</span>
+        </div>
+        <div class="catalog-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <input id="catalogSearch" type="search" placeholder="搜索品牌、场景或风格">
+        </div>
+        <div class="filter-chips" id="catalogFilters">
+          <button class="filter-chip active" type="button" data-filter="all">全部 28</button>
+          <button class="filter-chip" type="button" data-filter="commute">通勤 6</button>
+          <button class="filter-chip" type="button" data-filter="student">校园 6</button>
+          <button class="filter-chip" type="button" data-filter="mommy">妈咪 6</button>
+          <button class="filter-chip" type="button" data-filter="fashion">时尚 6</button>
+          <button class="filter-chip" type="button" data-filter="outdoor">户外 4</button>
+          <button class="filter-chip" type="button" data-filter="entry">50–100 元 12</button>
+          <button class="filter-chip" type="button" data-filter="function">功能</button>
+        </div>
+        <div class="catalog-style-filter">
+          <span>风格</span>
+          <div class="filter-chips style-filter-chips" id="catalogStyleFilters">
+            <button class="filter-chip active" type="button" data-style="all">全部</button>
+            <button class="filter-chip" type="button" data-style="business">商务</button>
+            <button class="filter-chip" type="button" data-style="minimal">简约</button>
+            <button class="filter-chip" type="button" data-style="korean">韩系</button>
+            <button class="filter-chip" type="button" data-style="retro">复古</button>
+            <button class="filter-chip" type="button" data-style="fashion">精致时尚</button>
+            <button class="filter-chip" type="button" data-style="cute">清新可爱</button>
+            <button class="filter-chip" type="button" data-style="functional">功能型</button>
+            <button class="filter-chip" type="button" data-style="outdoor">户外运动</button>
+          </div>
+        </div>
+        <div class="catalog-sort-row">
+          <span id="catalogCount">28 件商品</span>
+          <button class="sort-button" type="button" id="sortButton">推荐排序 <span>⌄</span></button>
+        </div>
+        <div class="catalog-grid" id="catalogGrid"></div>
+        <p class="catalog-disclaimer">商品型号、价格、库存状态与图片来自小米商城、苏宁易购和品牌官网的 2026-11-24 快照。库存为页面状态而非实时数量，购买前请以渠道页面为准。</p>
+      </div>
+    </section>
+
+    <section class="app-page" id="operatorPage" aria-label="运营驾驶舱">
+      <div class="page-scroll operator-scroll">
+        <section class="operator-hero">
+          <div>
+            <span class="eyebrow light">AI OPERATIONS COPILOT</span>
+            <h1>经营驾驶舱</h1>
+            <p>从导购对话里提炼可行动的商品、内容与排序建议。</p>
+          </div>
+          <span class="operator-badge">DEMO</span>
+        </section>
+
+        <section class="kpi-grid">
+          <article><span>需求完成率</span><strong>78%</strong><small>+12% vs 基线</small></article>
+          <article><span>平均澄清</span><strong>2.4<em>轮</em></strong><small>目标 ≤ 3</small></article>
+          <article><span>亲子场景</span><strong>46%</strong><small>当前会话</small></article>
+          <article><span>主流价格带</span><strong>65<em>-</em>299</strong><small>元 / 多场景</small></article>
+        </section>
+
+        <section class="insight-card">
+          <div class="section-title-row">
+            <div>
+              <span class="eyebrow">SIGNAL RADAR</span>
+              <h2>需求信号</h2>
+            </div>
+            <span class="mock-label">演示数据</span>
+          </div>
+          <div class="signal-bars">
+            <div><span>通勤</span><i style="--value: 78%"></i><b>78</b></div>
+            <div><span>校园</span><i style="--value: 54%"></i><b>54</b></div>
+            <div><span>带娃</span><i style="--value: 46%"></i><b>46</b></div>
+            <div><span>穿搭</span><i style="--value: 39%"></i><b>39</b></div>
+            <div><span>户外</span><i style="--value: 62%"></i><b>62</b></div>
+          </div>
+          <p class="insight-callout"><b>AI 洞察：</b>“通勤 + 600 元内 + 商务简约”“带娃 + 300 元内 + 大容量分区”和“户外 + 100 元内 + 轻量徒步”是三条并行高意向路径，不应共用同一套主推逻辑。</p>
+        </section>
+
+        <section class="operator-chat-card">
+          <div class="assistant-row">
+            <span class="ai-avatar">AI</span>
+            <div>
+              <strong>经营策略助手</strong>
+              <small>基于当前对话与商品证据</small>
+            </div>
+          </div>
+          <div id="operatorMessages" class="operator-messages"></div>
+          <div class="operator-quick" id="operatorQuick"></div>
+          <form class="operator-composer" id="operatorForm">
+            <input id="operatorInput" type="text" placeholder="例如：提升母婴场景成交率">
+            <button type="submit">生成建议</button>
+          </form>
+        </section>
+
+        <section class="strategy-card" id="strategyCard" hidden>
+          <div class="section-title-row">
+            <div>
+              <span class="eyebrow">ACTION PLAN</span>
+              <h2 id="strategyTitle">优化建议</h2>
+            </div>
+            <button class="download-button" id="downloadPlanButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              导出
+            </button>
+          </div>
+          <div id="strategyContent"></div>
+        </section>
+
+        <div class="scroll-spacer"></div>
+      </div>
+    </section>
+
+    <nav class="tab-bar" aria-label="主导航">
+      <button class="tab-item active" type="button" data-tab="chat">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h14v10H9l-4 3v-13Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>AI 导购</span>
+      </button>
+      <button class="tab-item" type="button" data-tab="catalog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 9V6a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>商品库</span>
+      </button>
+      <button class="tab-item" type="button" data-tab="operator">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V9m7 10V5m7 14v-7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        <span>运营台</span>
+      </button>
+    </nav>
+  </main>
+
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+  <section class="bottom-sheet" id="detailSheet" aria-hidden="true" aria-labelledby="detailSheetTitle">
+    <div class="sheet-grabber"></div>
+    <button class="sheet-close" id="detailSheetClose" type="button" aria-label="关闭详情">×</button>
+    <div id="detailSheetContent"></div>
+  </section>
+
+  <section class="bottom-sheet compare-sheet" id="compareSheet" aria-hidden="true" aria-labelledby="compareSheetTitle">
+    <div class="sheet-grabber"></div>
+    <button class="sheet-close" id="compareSheetClose" type="button" aria-label="关闭对比">×</button>
+    <div class="sheet-title">
+      <span class="eyebrow">SIDE BY SIDE</span>
+      <h2 id="compareSheetTitle">参数对比</h2>
+    </div>
+    <div id="compareSheetContent"></div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js?v=20261124-2"></script>
+  <script src="app.js?v=20261124-2"></script>
+</body>
+</html>
